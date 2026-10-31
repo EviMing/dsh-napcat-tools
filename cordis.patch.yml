@@ -1,0 +1,8 @@
+# 安装前把 cwd 改成仓库根目录（napcat_api 所在目录）
+- insert:
+    - id: napcat-tools
+      name: '@local/napcat-tools'
+      config:
+        cwd: ''
+        python: ''
+        timeoutMs: 120000

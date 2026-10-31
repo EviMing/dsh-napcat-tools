@@ -1,0 +1,39 @@
+{
+  "name": "@local/napcat-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 插件：把 NapCat 官方 OneBot 11 的 204 个 action 封装成 napcat_call / napcat_send 两个模型工具，内部调用本地 Python CLI（napcat_api）。",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "lib/*.mjs",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "napcat",
+    "onebot",
+    "qq"
+  ],
+  "homepage": "https://github.com/EviMing/dsh-napcat-tools#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EviMing/dsh-napcat-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EviMing/dsh-napcat-tools/issues"
+  },
+  "license": "MIT"
+}

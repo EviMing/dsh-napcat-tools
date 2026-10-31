@@ -1,0 +1,8265 @@
+{
+ "title": "NapCat OneBot 11 HTTP API",
+ "version": "4.18.42",
+ "description": "NapCatOneBot11 HTTP POST 接口文档",
+ "openapi": "3.1.0",
+ "source": "https://napneko.github.io/api/4.18.42",
+ "tags": [
+  {
+   "name": "消息接口",
+   "description": "发送、删除、获取消息相关接口"
+  },
+  {
+   "name": "群组接口",
+   "description": "群组管理、成员管理相关接口"
+  },
+  {
+   "name": "用户接口",
+   "description": "好友管理、个人信息相关接口"
+  },
+  {
+   "name": "系统接口",
+   "description": "状态获取、重启、缓存清理相关接口"
+  },
+  {
+   "name": "文件接口",
+   "description": "文件上传下载、预览相关接口"
+  }
+ ],
+ "actions": {
+  "clean_stream_temp_file": {
+   "summary": "清理流式传输临时文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "流式传输扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "download_file_stream": {
+   "summary": "下载文件流",
+   "description": "以流式方式从网络或本地下载文件",
+   "deprecated": false,
+   "tags": [
+    "流式接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径或 URL",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件 ID",
+      "type": "string"
+     },
+     "chunk_size": {
+      "default": 65536,
+      "description": "分块大小 (字节)",
+      "type": "number"
+     }
+    }
+   },
+   "example": {
+    "file": "http://example.com/file.png"
+   }
+  },
+  "download_file_record_stream": {
+   "summary": "下载语音文件流",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "流式传输扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径或 URL",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件 ID",
+      "type": "string"
+     },
+     "chunk_size": {
+      "default": 65536,
+      "description": "分块大小 (字节)",
+      "type": "number"
+     },
+     "out_format": {
+      "description": "输出格式",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "file": "record_file_id"
+   }
+  },
+  "download_file_image_stream": {
+   "summary": "下载图片文件流",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "流式传输扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径或 URL",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件 ID",
+      "type": "string"
+     },
+     "chunk_size": {
+      "default": 65536,
+      "description": "分块大小 (字节)",
+      "type": "number"
+     }
+    }
+   },
+   "example": {
+    "file": "image_file_id"
+   }
+  },
+  "test_download_stream": {
+   "summary": "测试下载流",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "流式传输扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "default": false,
+      "description": "是否触发测试错误",
+      "type": "boolean"
+     }
+    }
+   },
+   "example": {
+    "url": "http://example.com/file"
+   }
+  },
+  "upload_file_stream": {
+   "summary": "上传文件流",
+   "description": "以流式方式上传文件数据到机器人",
+   "deprecated": false,
+   "tags": [
+    "流式接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "stream_id": {
+      "description": "流 ID",
+      "type": "string"
+     },
+     "chunk_data": {
+      "description": "分块数据 (Base64)",
+      "type": "string"
+     },
+     "chunk_index": {
+      "description": "分块索引",
+      "type": "number"
+     },
+     "total_chunks": {
+      "description": "总分块数",
+      "type": "number"
+     },
+     "file_size": {
+      "description": "文件总大小",
+      "type": "number"
+     },
+     "expected_sha256": {
+      "description": "期望的 SHA256",
+      "type": "string"
+     },
+     "is_complete": {
+      "description": "是否完成",
+      "type": "boolean"
+     },
+     "filename": {
+      "description": "文件名",
+      "type": "string"
+     },
+     "reset": {
+      "description": "是否重置",
+      "type": "boolean"
+     },
+     "verify_only": {
+      "description": "是否仅验证",
+      "type": "boolean"
+     },
+     "file_retention": {
+      "default": 300000,
+      "description": "文件保留时间 (毫秒)",
+      "type": "number"
+     }
+    },
+    "required": [
+     "stream_id",
+     "file_retention"
+    ]
+   },
+   "example": {
+    "stream_id": "uuid-1234-5678",
+    "chunk_data": "SGVsbG8gV29ybGQ=",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "file_size": 11
+   }
+  },
+  "del_group_album_media": {
+   "summary": "删除群相册媒体",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "lloc": {
+      "description": "媒体ID (lloc)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "lloc"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1",
+    "lloc": "media_id_1"
+   }
+  },
+  "set_group_album_media_like": {
+   "summary": "点赞群相册媒体",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "batch_id": {
+      "description": "batch_id",
+      "type": "string"
+     },
+     "lloc": {
+      "description": "lloc，若对整个上传操作则不填",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "batch_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_123",
+    "batch_id": "112233",
+    "lloc": "aabbcc12213123"
+   }
+  },
+  "cancel_group_album_media_like": {
+   "summary": "取消点赞群相册媒体",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "batch_id": {
+      "description": "batch_id",
+      "type": "string"
+     },
+     "lloc": {
+      "description": "lloc，若对整个上传操作则不填",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "batch_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id",
+    "batch_id": "112233",
+    "lloc": "aabbcc"
+   }
+  },
+  "do_group_album_comment": {
+   "summary": "发表群相册评论",
+   "description": "lloc 与 batch_id 至少提供一项。传入 lloc 时评论单张图片；仅传 batch_id 时评论整个上传批次。",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册 ID",
+      "type": "string"
+     },
+     "lloc": {
+      "description": "图片 ID；不传或为空时评论整个上传批次，此时必须提供 batch_id",
+      "type": "string"
+     },
+     "batch_id": {
+      "description": "上传批次 ID，可取自 get_group_album_media_list 返回的 batch.link_id 或 media[].batch_id",
+      "type": "string"
+     },
+     "content": {
+      "description": "评论内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "content"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1",
+    "batch_id": "2147483658",
+    "content": "很有意思"
+   }
+  },
+  "get_group_album_media_list": {
+   "summary": "获取群相册媒体列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "attach_info": {
+      "default": "",
+      "description": "附加信息（用于分页）",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1"
+   }
+  },
+  "get_qun_album_list": {
+   "summary": "获取群相册列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "attach_info": {
+      "default": "",
+      "description": "附加信息（用于分页，从上一次返回结果中获取）",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "attach_info": ""
+   }
+  },
+  "upload_image_to_qun_album": {
+   "summary": "上传图片到群相册",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "album_name": {
+      "description": "相册名称",
+      "type": "string"
+     },
+     "file": {
+      "description": "图片路径、URL或Base64",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "album_name",
+     "file"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1",
+    "album_name": "相册1",
+    "file": "/path/to/image.jpg"
+   }
+  },
+  "upload_images_to_qun_album": {
+   "summary": "上传多张图片到群相册",
+   "description": "一次上传多张图片，这些图片在群相册里显示为同一条上传",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "album_name": {
+      "description": "相册名称",
+      "type": "string"
+     },
+     "files": {
+      "description": "图片路径、URL或Base64 数组，一次上传多张",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "album_name",
+     "files"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1",
+    "album_name": "相册1",
+    "files": [
+     "/path/to/1.jpg",
+     "/path/to/2.jpg"
+    ]
+   }
+  },
+  "upload_video_to_qun_album": {
+   "summary": "上传视频到群相册",
+   "description": "上传视频到群相册，封面自动抽取首帧（失败时使用内置默认封面）",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "album_id": {
+      "description": "相册ID",
+      "type": "string"
+     },
+     "album_name": {
+      "description": "相册名称",
+      "type": "string"
+     },
+     "file": {
+      "description": "视频路径、URL或Base64",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "album_id",
+     "album_name",
+     "file"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "album_id": "album_id_1",
+    "album_name": "相册1",
+    "file": "/path/to/video.mp4"
+   }
+  },
+  "set_group_todo": {
+   "summary": "设置群待办",
+   "description": "将指定消息设置为群待办",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     },
+     "message_seq": {
+      "description": "消息Seq (可选)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "message_id": "123456789"
+   }
+  },
+  "complete_group_todo": {
+   "summary": "完成群待办",
+   "description": "将指定消息对应的群待办标记为已完成",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     },
+     "message_seq": {
+      "description": "消息Seq (可选)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "message_id": "123456789"
+   }
+  },
+  "cancel_group_todo": {
+   "summary": "取消群待办",
+   "description": "将指定消息对应的群待办取消",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     },
+     "message_seq": {
+      "description": "消息Seq (可选)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "message_id": "123456789"
+   }
+  },
+  "get_group_detail_info": {
+   "summary": "获取群详细信息",
+   "description": "获取群聊的详细信息，包括成员数、最大成员数等",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "set_group_kick_members": {
+   "summary": "批量踢出群成员",
+   "description": "从指定群聊中批量踢出多个成员",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "QQ号列表",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "reject_add_request": {
+      "description": "是否拒绝加群请求",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": [
+     "123456789"
+    ],
+    "reject_add_request": false
+   }
+  },
+  "set_group_add_option": {
+   "summary": "设置群加群选项",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "add_type": {
+      "description": "加群方式",
+      "type": "number"
+     },
+     "group_question": {
+      "description": "加群问题",
+      "type": "string"
+     },
+     "group_answer": {
+      "description": "加群答案",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "add_type"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "add_type": 1
+   }
+  },
+  "set_group_robot_add_option": {
+   "summary": "设置群机器人加群选项",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "robot_member_switch": {
+      "description": "机器人成员开关",
+      "type": "number"
+     },
+     "robot_member_examine": {
+      "description": "机器人成员审核",
+      "type": "number"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "set_group_search": {
+   "summary": "设置群搜索选项",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "no_code_finger_open": {
+      "description": "未知",
+      "type": "number"
+     },
+     "no_finger_open": {
+      "description": "未知",
+      "type": "number"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "set_doubt_friends_add_request": {
+   "summary": "处理可疑好友申请",
+   "description": "同意或拒绝系统的可疑好友申请",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "flag": {
+      "description": "请求 flag",
+      "type": "string"
+     },
+     "approve": {
+      "default": true,
+      "description": "是否同意 (强制为 true)",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "flag",
+     "approve"
+    ]
+   },
+   "example": {
+    "flag": "12345",
+    "approve": true
+   }
+  },
+  "get_doubt_friends_add_request": {
+   "summary": "获取可疑好友申请",
+   "description": "获取系统的可疑好友申请列表",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "count": {
+      "default": 50,
+      "description": "获取数量",
+      "type": "number"
+     }
+    },
+    "required": [
+     "count"
+    ]
+   },
+   "example": {
+    "count": 10
+   }
+  },
+  "set_friend_remark": {
+   "summary": "设置好友备注",
+   "description": "设置好友备注",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "对方 QQ 号",
+      "type": "string"
+     },
+     "remark": {
+      "description": "备注内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "remark"
+    ]
+   },
+   "example": {
+    "user_id": "123456",
+    "remark": "测试备注"
+   }
+  },
+  "get_rkey": {
+   "summary": "获取扩展 RKey",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_rkey_server": {
+   "summary": "获取 RKey 服务器",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "set_group_remark": {
+   "summary": "设置群备注",
+   "description": "设置群备注",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "remark": {
+      "description": "备注",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "remark"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "remark": "测试群备注"
+   }
+  },
+  "get_group_info_ex": {
+   "summary": "获取群详细信息 (扩展)",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_group_share_link": {
+   "summary": "获取群分享链接",
+   "description": "通过 NTQQ 原生 getJoinGroupLink 获取群的 H5 分享/加群链接 (qm.qq.com/q/xxx 或 qun.qq.com/universal-share/share?...)",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "need_short_url": {
+      "default": true,
+      "description": "是否返回短链 (qm.qq.com/q/xxx)，false 返回完整 universal-share 链接",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "src_id": {
+      "default": 73,
+      "description": "分享来源 ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "additional_param": {
+      "default": "",
+      "description": "附加参数",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "need_short_url": true
+   }
+  },
+  "fetch_emoji_like": {
+   "summary": "获取表情点赞详情",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "emojiId": {
+      "description": "表情ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "emojiType": {
+      "description": "表情类型",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "count": {
+      "default": 20,
+      "description": "获取数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "cookie": {
+      "default": "",
+      "description": "分页Cookie",
+      "type": "string"
+     }
+    },
+    "required": [
+     "message_id",
+     "emojiId",
+     "emojiType",
+     "count",
+     "cookie"
+    ]
+   },
+   "example": {
+    "message_id": 12345,
+    "emojiId": "123",
+    "emojiType": 1,
+    "count": 10,
+    "cookie": ""
+   }
+  },
+  "get_emoji_likes": {
+   "summary": "获取消息表情点赞列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号，短ID可不传",
+      "type": "string"
+     },
+     "message_id": {
+      "description": "消息ID，可以传递长ID或短ID",
+      "type": "string"
+     },
+     "emoji_id": {
+      "description": "表情ID",
+      "type": "string"
+     },
+     "emoji_type": {
+      "description": "表情类型",
+      "type": "string"
+     },
+     "count": {
+      "default": 0,
+      "description": "数量，0代表全部",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message_id",
+     "emoji_id",
+     "count"
+    ]
+   },
+   "example": {
+    "message_id": "12345",
+    "emoji_id": "123"
+   }
+  },
+  "fetch_ptt_text": {
+   "summary": "获取语音转文字结果",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 123456
+   }
+  },
+  "get_file": {
+   "summary": "获取文件",
+   "description": "获取指定文件的详细信息及下载路径",
+   "deprecated": false,
+   "tags": [
+    "文件接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径、URL或Base64",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "file": "file_id_123"
+   }
+  },
+  "set_qq_profile": {
+   "summary": "设置QQ资料",
+   "description": "修改当前账号的昵称、个性签名等资料",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "nickname": {
+      "description": "昵称",
+      "type": "string"
+     },
+     "personal_note": {
+      "description": "个性签名",
+      "type": "string"
+     },
+     "sex": {
+      "description": "性别 (0: 未知, 1: 男, 2: 女)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "nickname"
+    ]
+   },
+   "example": {
+    "nickname": "新昵称",
+    "personal_note": "个性签名"
+   }
+  },
+  "ArkShareGroup": {
+   "summary": "分享群 (Ark)",
+   "description": "获取群分享的 Ark 内容",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "ArkSharePeer": {
+   "summary": "分享用户 (Ark)",
+   "description": "获取用户推荐的 Ark 内容",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "phone_number": {
+      "default": "",
+      "description": "手机号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "phone_number"
+    ]
+   },
+   "example": {
+    "user_id": "123456",
+    "phone_number": ""
+   }
+  },
+  "send_group_ark_share": {
+   "summary": "分享群 (Ark)",
+   "description": "获取群分享的 Ark 内容",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "send_ark_share": {
+   "summary": "分享用户 (Ark)",
+   "description": "获取用户推荐的 Ark 内容",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "phone_number": {
+      "default": "",
+      "description": "手机号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "phone_number"
+    ]
+   },
+   "example": {
+    "user_id": "123456",
+    "phone_number": ""
+   }
+  },
+  "create_collection": {
+   "summary": "创建收藏",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "rawData": {
+      "description": "原始数据",
+      "type": "string"
+     },
+     "brief": {
+      "description": "简要描述",
+      "type": "string"
+     }
+    },
+    "required": [
+     "rawData",
+     "brief"
+    ]
+   },
+   "example": {
+    "rawData": "收藏内容",
+    "brief": "收藏标题"
+   }
+  },
+  "set_self_longnick": {
+   "summary": "设置个性签名",
+   "description": "修改当前登录帐号的个性签名",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "longNick": {
+      "description": "签名内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "longNick"
+    ]
+   },
+   "example": {
+    "longNick": "个性签名"
+   }
+  },
+  "forward_friend_single_msg": {
+   "summary": "转发单条消息",
+   "description": "转发单条消息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "group_id": {
+      "description": "目标群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "目标用户QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 12345,
+    "group_id": "123456"
+   }
+  },
+  "forward_group_single_msg": {
+   "summary": "转发单条消息",
+   "description": "转发单条消息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "group_id": {
+      "description": "目标群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "目标用户QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 12345,
+    "group_id": "123456"
+   }
+  },
+  "mark_group_msg_as_read": {
+   "summary": "标记群聊已读",
+   "description": "标记指定渠道的消息为已读",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户QQ",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "message_id": 12345
+   }
+  },
+  "mark_private_msg_as_read": {
+   "summary": "标记私聊已读",
+   "description": "标记指定渠道的消息为已读",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户QQ",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "message_id": 12345
+   }
+  },
+  "set_qq_avatar": {
+   "summary": "设置QQ头像",
+   "description": "修改当前账号的QQ头像",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "图片路径、URL或Base64",
+      "type": "string"
+     }
+    },
+    "required": [
+     "file"
+    ]
+   },
+   "example": {
+    "file": "base64://..."
+   }
+  },
+  "translate_en2zh": {
+   "summary": "英文单词翻译",
+   "description": "将英文单词列表翻译为中文",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "words": {
+      "description": "待翻译单词列表",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "words"
+    ]
+   },
+   "example": {
+    "words": [
+     "hello"
+    ]
+   }
+  },
+  "get_group_root_files": {
+   "summary": "获取群根目录文件列表",
+   "description": "获取群文件根目录下的所有文件和文件夹",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_count": {
+      "default": 50,
+      "description": "文件数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "file_count"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "set_group_sign": {
+   "summary": "群打卡",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456789"
+   }
+  },
+  "send_group_sign": {
+   "summary": "群打卡",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456789"
+   }
+  },
+  "get_clientkey": {
+   "summary": "获取ClientKey",
+   "description": "获取当前登录帐号的ClientKey",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "move_group_file": {
+   "summary": "移动群文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     },
+     "current_parent_directory": {
+      "description": "当前父目录",
+      "type": "string"
+     },
+     "target_parent_directory": {
+      "description": "目标父目录",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "file_id",
+     "current_parent_directory",
+     "target_parent_directory"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file_id": "/file_id",
+    "current_parent_directory": "/current_folder_id",
+    "target_parent_directory": "/target_folder_id"
+   }
+  },
+  "rename_group_file": {
+   "summary": "重命名群文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     },
+     "current_parent_directory": {
+      "description": "当前父目录",
+      "type": "string"
+     },
+     "new_name": {
+      "description": "新文件名",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "file_id",
+     "current_parent_directory",
+     "new_name"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file_id": "/file_id",
+    "current_parent_directory": "/",
+    "new_name": "new_name.jpg"
+   }
+  },
+  "trans_group_file": {
+   "summary": "传输群文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "file_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file_id": "/file_id"
+   }
+  },
+  "get_group_signed_list": {
+   "summary": "获取群组今日打卡列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "send_qzone_msg": {
+   "summary": "发表QQ空间说说",
+   "description": "在QQ空间(Qzone)发表说说, 支持纯文字或带(多)图, 可设置查看权限。纯文字使用QQ内置空间接口, 图片保留原有上传和发表方式",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "content": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "images": {
+      "description": "图片数组, 支持 file:// http(s):// base64:// , 自动上传",
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "ugc_right": {
+      "default": 1,
+      "description": "查看权限: 1所有人可见 4好友可见 16部分好友可见 64仅自己可见 128部分好友不可见",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "target_uins": {
+      "description": "ugc_right为16/128时, 权限作用的QQ号数组",
+      "type": "array",
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "string"
+        }
+       ]
+      }
+     }
+    },
+    "required": [
+     "content"
+    ]
+   },
+   "example": {
+    "content": "今天天气不错",
+    "images": [],
+    "ugc_right": 1,
+    "target_uins": []
+   }
+  },
+  "delete_qzone_msg": {
+   "summary": "删除QQ空间说说",
+   "description": "删除QQ空间(Qzone)的一条说说, 按 tid 删除",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     }
+    },
+    "required": [
+     "tid"
+    ]
+   },
+   "example": {
+    "tid": "1234567890abcdef1234567890"
+   }
+  },
+  "get_qzone_feeds": {
+   "summary": "获取QQ空间好友动态",
+   "description": "默认返回 SnowLuma 格式，page_num 默认1、count 默认10，续页原样传 cursor。format=native 返回原 H5 Feed 和 feed_ref；旧 native 游标可自动识别，native 模式不接受 page_num/count。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "format": {
+      "description": "默认 snowluma；native 保留原来的 H5 列表格式",
+      "enum": [
+       "snowluma",
+       "native"
+      ],
+      "type": "string"
+     },
+     "page_num": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     },
+     "count": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     },
+     "cursor": {
+      "minLength": 1,
+      "maxLength": 65536,
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "page_num": 1,
+    "count": 10
+   }
+  },
+  "get_qzone_msg_list": {
+   "summary": "获取QQ空间说说列表",
+   "description": "默认返回 SnowLuma 的 total/msglist，pos 默认0、num 默认20（1至100）。format=native 保留原 H5 Feed、feed_ref 和游标；仅传旧 cursor 也会选择 native。两种分页参数不能混用。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "format": {
+      "description": "默认 snowluma；native 保留原来的 H5 列表格式",
+      "enum": [
+       "snowluma",
+       "native"
+      ],
+      "type": "string"
+     },
+     "target_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "pos": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     },
+     "num": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     },
+     "cursor": {
+      "minLength": 1,
+      "maxLength": 16384,
+      "description": "上一页返回的 next_cursor；不传时读取第一页，游标不能跨账号或查询使用",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "target_uin": "10001",
+    "pos": 0,
+    "num": 20
+   }
+  },
+  "get_qzone_msg_detail": {
+   "summary": "获取QQ空间说说详情",
+   "description": "传 tid 返回 SnowLuma 详情和评论，target_uin 默认当前账号、pos 默认0、num 默认20。传完整 feed_ref 则保留原 H5 详情、原始评论和续页信息；两种定位方式不能混用。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "target_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "pos": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     },
+     "num": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "tid": "sample-post",
+    "pos": 0,
+    "num": 20
+   }
+  },
+  "get_qzone_comment_list": {
+   "summary": "获取QQ空间说说评论",
+   "description": "不传 cursor 读取详情中的首批评论，之后用返回的 feed_ref 和 next_cursor 续页。返回作者、正文、图片、赞数、内联回复及完整原始对象；未知值为 null，不自动拉取全部历史。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "cursor": {
+      "minLength": 1,
+      "maxLength": 16384,
+      "description": "上一页返回的 next_cursor；不传时读取第一页，游标不能跨账号或查询使用",
+      "type": "string"
+     }
+    },
+    "required": [
+     "feed_ref"
+    ]
+   },
+   "example": {
+    "feed_ref": {
+     "union_id": {
+      "uf_key": "feed-key",
+      "ugc_id": "shuoshuo-tid",
+      "feed_id": "feed-id"
+     },
+     "feed_action_domain_type": 1,
+     "like_key": "like-key"
+    }
+   }
+  },
+  "get_qzone_comment_replies": {
+   "summary": "获取QQ空间评论楼中楼回复",
+   "description": "传入读取结果的完整 comment，使用其回复游标读取追加回复；之后用返回的 feed_ref、同一父评论和 next_cursor 续页。与内联回复按 ID 合并，不自动拉取全部历史；每页使用空间固定页大小。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "原样传回读取结果中的完整 comment 对象；整体不得超过64KiB",
+      "type": "object",
+      "properties": {
+       "id": {
+        "description": "原始父评论 ID，字符串或安全整数，0 是有效 ID",
+        "anyOf": [
+         {
+          "minLength": 1,
+          "maxLength": 8192,
+          "type": "string"
+         },
+         {
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "type": "integer"
+         }
+        ]
+       },
+       "user": {
+        "type": "object",
+        "patternProperties": {
+         "^(.*)$": {}
+        }
+       }
+      },
+      "required": [
+       "id"
+      ]
+     },
+     "cursor": {
+      "minLength": 1,
+      "maxLength": 16384,
+      "description": "上一页返回的 next_cursor；不传时读取第一页，游标不能跨账号或查询使用",
+      "type": "string"
+     }
+    },
+    "required": [
+     "feed_ref",
+     "comment"
+    ]
+   },
+   "example": {
+    "feed_ref": {
+     "union_id": {
+      "uf_key": "feed-key",
+      "ugc_id": "shuoshuo-tid",
+      "feed_id": "feed-id"
+     },
+     "feed_action_domain_type": 1,
+     "like_key": "like-key"
+    },
+    "comment": {
+     "id": 0,
+     "user": {
+      "uid": "u_commenter",
+      "uin": "",
+      "nick": "评论作者",
+      "portrait": "https://example.com/avatar.png"
+     },
+     "time": 1792926000,
+     "content": [
+      {
+       "type": 0,
+       "content": "很有意思"
+      }
+     ],
+     "media_items": [],
+     "like": {
+      "id": "comment-like-key",
+      "count": 2,
+      "status": 1
+     },
+     "reply_num": 1,
+     "has_more_reply": true,
+     "replys": [],
+     "reply_attach_info": "server-reply-pointer"
+    }
+   }
+  },
+  "like_qzone": {
+   "summary": "点赞QQ空间说说",
+   "description": "支持 SnowLuma 的 tid、target_uin 和 abstime（默认0）；传 feed_ref 则沿用原 H5 点赞方式。两种定位方式不能混用，写入失败不会切换接口重试。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "target_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "abstime": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "tid": "sample-post",
+    "target_uin": "10002",
+    "abstime": 1700000000
+   }
+  },
+  "unlike_qzone": {
+   "summary": "取消QQ空间说说点赞",
+   "description": "支持 SnowLuma 的 tid、target_uin 和 abstime（默认0）；传 feed_ref 则沿用原 H5 取消点赞方式。两种定位方式不能混用，写入失败不会切换接口重试。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "target_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "abstime": {
+      "anyOf": [
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       },
+       {
+        "minLength": 1,
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "tid": "sample-post",
+    "target_uin": "10002",
+    "abstime": 1700000000
+   }
+  },
+  "comment_qzone": {
+   "summary": "评论QQ空间说说",
+   "description": "传 tid 使用 SnowLuma 参数，一级评论支持 images；回复须成对提供 comment_id/comment_uin，指定接收者时还需 reply_uin/reply_name，楼中楼仅文字。传 feed_ref 则保留原 comment/reply_user 方式及原始结果；两种参数不能混用。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": {},
+    "type": "object",
+    "properties": {
+     "feed_ref": {
+      "additionalProperties": false,
+      "description": "原样传回列表或详情返回的 feed_ref；整体不得超过 64 KiB",
+      "type": "object",
+      "properties": {
+       "union_id": {
+        "minProperties": 1,
+        "additionalProperties": {},
+        "description": "读取结果中的完整动态身份，不要由 tid 拼造",
+        "type": "object",
+        "properties": {
+         "uf_key": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ugc_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "feed_id": {
+          "maxLength": 8192,
+          "type": "string"
+         },
+         "ext_ids": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "patternProperties": {
+            "^(.*)$": {}
+           }
+          }
+         },
+         "serialized_data": {
+          "maxLength": 8192,
+          "type": "string"
+         }
+        }
+       },
+       "cell_feed_transfer": {},
+       "feed_action_domain_type": {
+        "minimum": 1,
+        "maximum": 3,
+        "type": "integer"
+       },
+       "like_key": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       }
+      },
+      "required": [
+       "union_id"
+      ]
+     },
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "target_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "content": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "从详情 comments 中取得的完整父评论对象",
+      "type": "object",
+      "properties": {
+       "id": {
+        "minLength": 1,
+        "maxLength": 8192,
+        "description": "父评论 ID",
+        "type": "string"
+       },
+       "user": {
+        "additionalProperties": {},
+        "type": "object",
+        "properties": {
+         "uin": {
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 20,
+          "description": "QQ 号",
+          "type": "string"
+         },
+         "uid": {
+          "description": "原始父评论作者的 UID；允许上游返回 null 并原样保留",
+          "anyOf": [
+           {
+            "maxLength": 256,
+            "type": "string"
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "nick": {
+          "maxLength": 256,
+          "description": "昵称",
+          "type": "string"
+         }
+        },
+        "required": [
+         "uin"
+        ]
+       }
+      },
+      "required": [
+       "id",
+       "user"
+      ]
+     },
+     "reply_user": {
+      "additionalProperties": {},
+      "type": "object",
+      "properties": {
+       "uin": {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "description": "QQ 号",
+        "type": "string"
+       },
+       "uid": {
+        "maxLength": 256,
+        "description": "QQ UID；部分空间用户返回空字符串",
+        "type": "string"
+       },
+       "nick": {
+        "maxLength": 256,
+        "description": "昵称",
+        "type": "string"
+       }
+      },
+      "required": [
+       "uin"
+      ]
+     },
+     "comment_id": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "comment_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "reply_uin": {
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "reply_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "images": {
+      "description": "图片来源数组，支持 file://、HTTP(S)、base64://；仅一级评论支持图片",
+      "type": "array",
+      "items": {
+       "minLength": 1,
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "content"
+    ]
+   },
+   "example": {
+    "tid": "sample-post",
+    "target_uin": "10002",
+    "content": "很有意思"
+   }
+  },
+  "get_qzone_profile": {
+   "summary": "获取QQ空间资料",
+   "description": "获取空间名称和空间说明；target_uin 不传时读取当前账号，空名称或说明按原值返回。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "target_uin": {
+      "description": "空间所属 QQ 号；不传时为当前账号",
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "target_uin": "10001"
+   }
+  },
+  "set_qzone_profile": {
+   "summary": "修改QQ空间资料",
+   "description": "仅修改当前账号的空间名称或说明，至少提供一项。省略字段保持不变；空字符串清空字段；数字和布尔值转换为字符串。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "name": {
+      "description": "空间名称；空字符串表示清空，省略时不修改",
+      "anyOf": [
+       {
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "description": {
+      "description": "空间说明；空字符串表示清空，省略时不修改",
+      "anyOf": [
+       {
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "name": "我的空间",
+    "description": "记录生活"
+   }
+  },
+  "set_qzone_msg_right": {
+   "summary": "修改QQ空间说说权限",
+   "description": "仅修改当前账号发表的说说。ugc_right 为16或128时 target_uins 不能为空；其他权限不使用该列表。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "tid": {
+      "anyOf": [
+       {
+        "minLength": 1,
+        "maxLength": 8192,
+        "type": "string"
+       },
+       {
+        "minimum": 0,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "ugc_right": {
+      "description": "查看权限：1所有人，4好友，16部分好友，64仅自己，128排除部分好友",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "maxLength": 32,
+        "type": "string"
+       }
+      ]
+     },
+     "target_uins": {
+      "description": "ugc_right 为16或128时的QQ号列表",
+      "type": "array",
+      "items": {
+       "anyOf": [
+        {
+         "pattern": "^[1-9][0-9]*$",
+         "maxLength": 20,
+         "type": "string"
+        },
+        {
+         "minimum": 1,
+         "maximum": 9007199254740991,
+         "type": "integer"
+        }
+       ]
+      }
+     }
+    },
+    "required": [
+     "tid",
+     "ugc_right"
+    ]
+   },
+   "example": {
+    "tid": "shuoshuo-tid",
+    "ugc_right": 4
+   }
+  },
+  "set_qzone_ban": {
+   "summary": "设置QQ空间访问限制",
+   "description": "在当前账号的空间设置指定用户的访问限制；enable 默认为 true，传 false 取消禁止。",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "需要设置空间访问限制的QQ号",
+      "anyOf": [
+       {
+        "pattern": "^[1-9][0-9]*$",
+        "maxLength": 20,
+        "type": "string"
+       },
+       {
+        "minimum": 1,
+        "maximum": 9007199254740991,
+        "type": "integer"
+       }
+      ]
+     },
+     "enable": {
+      "description": "默认true；支持布尔值及true/false、1/0、yes/no、on/off拼写",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "minimum": 0,
+        "maximum": 1,
+        "type": "integer"
+       },
+       {
+        "maxLength": 128,
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "10002",
+    "enable": true
+   }
+  },
+  "get_qzone_public_capabilities": {
+   "summary": "获取空友爱看接口能力",
+   "description": "获取当前 QQ 版本和账号可用的空友爱看接口能力，不会执行写操作",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_qzone_public_feeds": {
+   "summary": "获取空友爱看动态",
+   "description": "获取空友爱看动态列表；后续操作应直接传入 feeds 中的完整对象，翻页使用 next_cursor",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "cursor": {
+      "minLength": 1,
+      "maxLength": 65536,
+      "description": "上一页返回的非空 next_cursor，首次请求可省略；数字或布尔值会转为文本",
+      "type": "string"
+     }
+    }
+   },
+   "example": {}
+  },
+  "get_qzone_public_feed_detail": {
+   "summary": "获取空友爱看动态详情",
+   "description": "传入列表中的完整 feed 对象获取详情；继续读取评论时，将详情返回的 attach_info 作为 cursor",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     }
+    },
+    "required": [
+     "feed"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    }
+   }
+  },
+  "get_qzone_public_comments": {
+   "summary": "获取空友爱看评论",
+   "description": "读取动态的后续评论；cursor 为必填非空字符串，使用动态详情或上一评论页的 attach_info，原始评论对象应完整保留",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "cursor": {
+      "minLength": 1,
+      "description": "动态详情或上一评论页返回的非空 attach_info；数字或布尔值会转为文本",
+      "type": "string"
+     }
+    },
+    "required": [
+     "feed",
+     "cursor"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "cursor": "detail-attach-info"
+   }
+  },
+  "get_qzone_public_replies": {
+   "summary": "获取空友爱看评论回复",
+   "description": "传入完整动态及父评论读取回复分页；省略 cursor 时使用父评论中的 reply_attach_info",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "详情或评论列表返回的完整 comment 对象，请保留 like.id 等全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "cursor": {
+      "default": "",
+      "description": "回复分页游标，默认为空字符串；空字符串时使用 comment.reply_attach_info；数字或布尔值会转为文本",
+      "type": "string"
+     },
+     "page_size": {
+      "default": 20,
+      "description": "每页回复数量，默认 20；有限数字或非空数值字符串，向零截断后应大于等于 1",
+      "anyOf": [
+       {
+        "minimum": 1,
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed",
+     "comment"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "comment": {
+     "id": "example-comment",
+     "like": {
+      "id": "example-comment-like"
+     },
+     "reply_attach_info": ""
+    },
+    "page_size": 20
+   }
+  },
+  "set_qzone_public_upvote": {
+   "summary": "推或取消推空友爱看动态",
+   "description": "对完整 feed 设置推或取消推（upvote）；enable 默认 true，此操作与普通点赞分别处理",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "enable": {
+      "default": true,
+      "description": "是否启用，默认 true；数字非 0 为 true，文本支持 true/false、1/0、yes/no、on/off",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "enable": true
+   }
+  },
+  "set_qzone_public_like": {
+   "summary": "设置空友爱看普通赞",
+   "description": "对完整 feed 设置或取消普通点赞（like）；enable 默认 true，此操作与推分别处理",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "enable": {
+      "default": true,
+      "description": "是否启用，默认 true；数字非 0 为 true，文本支持 true/false、1/0、yes/no、on/off",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "enable": true
+   }
+  },
+  "set_qzone_public_follow": {
+   "summary": "蹲或取消蹲空友爱看作者",
+   "description": "根据完整 feed 蹲或取消蹲动态作者；enable 默认 true，返回上游操作结果",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "enable": {
+      "default": true,
+      "description": "是否启用，默认 true；数字非 0 为 true，文本支持 true/false、1/0、yes/no、on/off",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "enable": true
+   }
+  },
+  "set_qzone_public_comment_like": {
+   "summary": "设置空友爱看评论或回复赞",
+   "description": "对完整 comment 点赞或取消点赞；传入完整 reply 时操作该回复，保留 comment/reply 的 like.id 等字段",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "详情或评论列表返回的完整 comment 对象，请保留 like.id 等全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "reply": {
+      "additionalProperties": {},
+      "description": "回复列表返回的完整 reply 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "enable": {
+      "default": true,
+      "description": "是否启用，默认 true；数字非 0 为 true，文本支持 true/false、1/0、yes/no、on/off",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed",
+     "comment"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "comment": {
+     "id": "example-comment",
+     "like": {
+      "id": "example-comment-like"
+     },
+     "reply_attach_info": ""
+    },
+    "enable": true
+   }
+  },
+  "comment_qzone_public_feed": {
+   "summary": "评论空友爱看动态",
+   "description": "对完整 feed 发表评论；content 接受非空文本或富文本对象数组，富文本字段原样保留",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "content": {
+      "description": "非空文本或非空富文本对象数组，保留每个对象的全部字段",
+      "anyOf": [
+       {
+        "minLength": 1,
+        "type": "string"
+       },
+       {
+        "minItems": 1,
+        "type": "array",
+        "items": {
+         "additionalProperties": {},
+         "type": "object",
+         "properties": {}
+        }
+       }
+      ]
+     }
+    },
+    "required": [
+     "feed",
+     "content"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "content": "很有意思"
+   }
+  },
+  "reply_qzone_public_feed": {
+   "summary": "回复空友爱看评论",
+   "description": "传入完整 feed、父 comment 及非空 content 发表回复；需要回复已有回复时一并传入完整 reply",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "详情或评论列表返回的完整 comment 对象，请保留 like.id 等全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "content": {
+      "description": "非空文本或非空富文本对象数组，保留每个对象的全部字段",
+      "anyOf": [
+       {
+        "minLength": 1,
+        "type": "string"
+       },
+       {
+        "minItems": 1,
+        "type": "array",
+        "items": {
+         "additionalProperties": {},
+         "type": "object",
+         "properties": {}
+        }
+       }
+      ]
+     },
+     "reply": {
+      "additionalProperties": {},
+      "description": "回复列表返回的完整 reply 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     }
+    },
+    "required": [
+     "feed",
+     "comment",
+     "content"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "comment": {
+     "id": "example-comment",
+     "like": {
+      "id": "example-comment-like"
+     },
+     "reply_attach_info": ""
+    },
+    "content": "谢谢分享"
+   }
+  },
+  "delete_qzone_public_comment": {
+   "summary": "删除空友爱看评论",
+   "description": "传入完整 feed 及 comment 删除评论，操作权限由上游校验",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "详情或评论列表返回的完整 comment 对象，请保留 like.id 等全部字段",
+      "type": "object",
+      "properties": {}
+     }
+    },
+    "required": [
+     "feed",
+     "comment"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "comment": {
+     "id": "example-comment",
+     "like": {
+      "id": "example-comment-like"
+     },
+     "reply_attach_info": ""
+    }
+   }
+  },
+  "delete_qzone_public_reply": {
+   "summary": "删除空友爱看回复",
+   "description": "传入完整 feed、父 comment 和目标 reply 删除回复，操作权限由上游校验",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "comment": {
+      "additionalProperties": {},
+      "description": "详情或评论列表返回的完整 comment 对象，请保留 like.id 等全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "reply": {
+      "additionalProperties": {},
+      "description": "回复列表返回的完整 reply 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     }
+    },
+    "required": [
+     "feed",
+     "comment",
+     "reply"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "comment": {
+     "id": "example-comment",
+     "like": {
+      "id": "example-comment-like"
+     },
+     "reply_attach_info": ""
+    },
+    "reply": {
+     "id": "example-reply",
+     "like": {
+      "id": "example-reply-like"
+     }
+    }
+   }
+  },
+  "forward_qzone_public_feed": {
+   "summary": "转发空友爱看动态",
+   "description": "将完整 feed 转发到自己的空间，可通过 reason 添加转发附言",
+   "deprecated": false,
+   "tags": [
+    "QQ空间扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "feed": {
+      "additionalProperties": {},
+      "description": "get_qzone_public_feeds 返回的完整 feed 对象，请保留全部字段",
+      "type": "object",
+      "properties": {}
+     },
+     "reason": {
+      "default": "",
+      "description": "转发附言，默认空字符串；数字或布尔值会转为文本",
+      "type": "string"
+     }
+    },
+    "required": [
+     "feed"
+    ]
+   },
+   "example": {
+    "feed": {
+     "cell_common": {
+      "union_id": {
+       "uf_key": "example-uf-key",
+       "ugc_id": "example-ugc-id",
+       "feed_id": "example-feed-id",
+       "ext_ids": []
+      },
+      "cur_like_key": "example-like-key",
+      "domain_type": 3
+     },
+     "cell_user_info": {
+      "user": {
+       "uin": "10001"
+      }
+     },
+     "cell_feed_transfer": {}
+    },
+    "reason": "分享一条动态"
+   }
+  },
+  "set_group_member_invite_policy": {
+   "summary": "设置群成员邀请策略",
+   "description": "设置是否允许群成员邀请好友进群，以及邀请是否需要管理员审核",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "policy": {
+      "description": "成员邀请策略：禁止、需要管理员审核、无需审核、群成员少于100人时无需审核",
+      "enum": [
+       "disabled",
+       "require_approval",
+       "no_approval",
+       "no_approval_under_100"
+      ],
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "policy"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "policy": "require_approval"
+   }
+  },
+  "set_group_member_permissions": {
+   "summary": "设置群成员功能权限",
+   "description": "设置群成员上传相册、发起临时会话和发起新群聊的权限；未传入的项目保持不变",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "allow_member_upload_album": {
+      "description": "允许成员上传群相册",
+      "type": "boolean"
+     },
+     "allow_member_temporary_session": {
+      "description": "允许成员发起临时会话",
+      "type": "boolean"
+     },
+     "allow_member_create_group": {
+      "description": "允许成员发起新的群聊",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "allow_member_upload_album": true,
+    "allow_member_temporary_session": true,
+    "allow_member_create_group": true
+   }
+  },
+  "set_group_new_member_history_visibility": {
+   "summary": "设置新成员历史消息可见性",
+   "description": "设置新入群成员默认是否可以查看最近聊天记录",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "visible": {
+      "description": "新成员默认可见最近聊天记录",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "group_id",
+     "visible"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "visible": true
+   }
+  },
+  "send_like": {
+   "summary": "点赞",
+   "description": "给指定用户点赞",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "对方 QQ 号",
+      "type": "string"
+     },
+     "times": {
+      "default": 1,
+      "description": "点赞次数",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "user_id",
+     "times"
+    ]
+   },
+   "example": {
+    "user_id": "123456",
+    "times": 10
+   }
+  },
+  "get_msg": {
+   "summary": "获取消息",
+   "description": "根据消息 ID 获取消息详细信息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 123456
+   }
+  },
+  "get_login_info": {
+   "summary": "获取登录号信息",
+   "description": "获取当前登录帐号的信息",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_friend_list": {
+   "summary": "获取好友列表",
+   "description": "获取当前帐号的好友列表",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "no_cache": {
+      "description": "是否不使用缓存",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    }
+   },
+   "example": {}
+  },
+  "get_group_list": {
+   "summary": "获取群列表",
+   "description": "获取当前帐号的群聊列表",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "no_cache": {
+      "description": "是否不使用缓存",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    }
+   },
+   "example": {}
+  },
+  "get_group_info": {
+   "summary": "获取群信息",
+   "description": "获取群聊的基本信息",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_group_member_list": {
+   "summary": "获取群成员列表",
+   "description": "获取群聊中的所有成员列表",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "no_cache": {
+      "description": "是否不使用缓存",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_group_member_info": {
+   "summary": "获取群成员信息",
+   "description": "获取群聊中指定成员的信息",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "no_cache": {
+      "description": "是否不使用缓存",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789"
+   }
+  },
+  "send_group_msg": {
+   "summary": "发送群消息",
+   "description": "发送群消息",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "message": "hello"
+   }
+  },
+  "send_private_msg": {
+   "summary": "发送私聊消息",
+   "description": "发送私聊消息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "message": "hello"
+   }
+  },
+  "send_msg": {
+   "summary": "发送消息",
+   "description": "发送私聊或群聊消息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "message_type": "group",
+    "group_id": "123456",
+    "message": "hello"
+   }
+  },
+  "delete_msg": {
+   "summary": "撤回消息",
+   "description": "撤回已发送的消息",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 12345
+   }
+  },
+  "set_group_add_request": {
+   "summary": "处理加群请求",
+   "description": "同意或拒绝加群请求或邀请",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "flag": {
+      "description": "请求flag",
+      "type": "string"
+     },
+     "approve": {
+      "description": "是否同意",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "reason": {
+      "description": "拒绝理由",
+      "anyOf": [
+       {
+        "default": " ",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "count": {
+      "default": 100,
+      "description": "搜索通知数量",
+      "type": "number"
+     }
+    },
+    "required": [
+     "flag"
+    ]
+   },
+   "example": {
+    "flag": "flag_123",
+    "sub_type": "add",
+    "approve": true
+   }
+  },
+  "set_friend_add_request": {
+   "summary": "处理加好友请求",
+   "description": "同意或拒绝加好友请求",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "flag": {
+      "description": "加好友请求的 flag (需从上报中获取)",
+      "type": "string"
+     },
+     "approve": {
+      "description": "是否同意请求",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "remark": {
+      "description": "添加后的好友备注",
+      "type": "string"
+     }
+    },
+    "required": [
+     "flag"
+    ]
+   },
+   "example": {
+    "flag": "flag_12345",
+    "approve": true,
+    "remark": "新朋友"
+   }
+  },
+  "set_group_leave": {
+   "summary": "退出群组",
+   "description": "退出或解散指定群聊",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "is_dismiss": {
+      "description": "是否解散",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "is_dismiss": false
+   }
+  },
+  "get_version_info": {
+   "summary": "获取版本信息",
+   "description": "获取版本信息",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "can_send_record": {
+   "summary": "是否可以发送语音",
+   "description": "检查是否可以发送语音",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "can_send_image": {
+   "summary": "是否可以发送图片",
+   "description": "检查是否可以发送图片",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_status": {
+   "summary": "获取运行状态",
+   "description": "获取运行状态",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "set_group_whole_ban": {
+   "summary": "全员禁言",
+   "description": "开启或关闭指定群聊的全员禁言",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "enable": {
+      "description": "是否开启全员禁言",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "enable": true
+   }
+  },
+  "set_group_ban": {
+   "summary": "群组禁言",
+   "description": "禁言群聊中的指定成员",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "duration": {
+      "default": 0,
+      "description": "禁言时长(秒)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id",
+     "duration"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789",
+    "duration": 1800
+   }
+  },
+  "set_group_kick": {
+   "summary": "群组踢人",
+   "description": "将指定成员踢出群聊",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "reject_add_request": {
+      "description": "是否拒绝加群请求",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789",
+    "reject_add_request": false
+   }
+  },
+  "set_group_admin": {
+   "summary": "设置群管理员",
+   "description": "设置或取消群聊中的管理员",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "enable": {
+      "description": "是否设置为管理员",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789",
+    "enable": true
+   }
+  },
+  "set_group_name": {
+   "summary": "设置群名称",
+   "description": "修改指定群聊的名称",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "group_name": {
+      "description": "群名称",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "group_name"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "group_name": "新群名"
+   }
+  },
+  "set_group_card": {
+   "summary": "设置群名片",
+   "description": "设置群聊中指定成员的群名片",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "card": {
+      "description": "群名片",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789",
+    "card": "新名片"
+   }
+  },
+  "get_image": {
+   "summary": "获取图片",
+   "description": "获取指定图片的信息及路径",
+   "deprecated": false,
+   "tags": [
+    "文件接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径、URL或Base64",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "file": "image_id_123"
+   }
+  },
+  "get_record": {
+   "summary": "获取语音",
+   "description": "获取指定语音文件的信息，并支持格式转换",
+   "deprecated": false,
+   "tags": [
+    "文件接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "文件路径、URL或Base64",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     },
+     "out_format": {
+      "description": "输出格式",
+      "type": "string"
+     }
+    },
+    "required": [
+     "out_format"
+    ]
+   },
+   "example": {
+    "file": "record_id_123",
+    "out_format": "mp3"
+   }
+  },
+  "set_msg_emoji_like": {
+   "summary": "设置消息表情点赞",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "emoji_id": {
+      "description": "表情ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "set": {
+      "description": "是否设置",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "message_id",
+     "emoji_id"
+    ]
+   },
+   "example": {
+    "message_id": 12345,
+    "emoji_id": "123",
+    "set": true
+   }
+  },
+  "get_cookies": {
+   "summary": "获取 Cookies",
+   "description": "获取指定域名的 Cookies",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "domain": {
+      "description": "需要获取 cookies 的域名",
+      "type": "string"
+     }
+    },
+    "required": [
+     "domain"
+    ]
+   },
+   "example": {
+    "domain": "qun.qq.com"
+   }
+  },
+  "set_online_status": {
+   "summary": "设置在线状态",
+   "description": "\n## 状态列表\n\n### 在线\n```json5;\n{ \"status\": 10, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### Q我吧\n```json5;\n{ \"status\": 60, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### 离开\n```json5;\n{ \"status\": 30, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### 忙碌\n```json5;\n{ \"status\": 50, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### 请勿打扰\n```json5;\n{ \"status\": 70, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### 隐身\n```json5;\n{ \"status\": 40, \"ext_status\": 0, \"battery_status\": 0; }\n```\n\n### 听歌中\n```json5;\n{ \"status\": 10, \"ext_status\": 1028, \"battery_status\": 0; }\n```\n\n### 春日限定\n```json5;\n{ \"status\": 10, \"ext_status\": 2037, \"battery_status\": 0; }\n```\n\n### 一起元梦\n```json5;\n{ \"status\": 10, \"ext_status\": 2025, \"battery_status\": 0; }\n```\n\n### 求星搭子\n```json5;\n{ \"status\": 10, \"ext_status\": 2026, \"battery_status\": 0; }\n```\n\n### 被掏空\n```json5;\n{ \"status\": 10, \"ext_status\": 2014, \"battery_status\": 0; }\n```\n\n### 今日天气\n```json5;\n{ \"status\": 10, \"ext_status\": 1030, \"battery_status\": 0; }\n```\n\n### 我crash了\n```json5;\n{ \"status\": 10, \"ext_status\": 2019, \"battery_status\": 0; }\n```\n\n### 爱你\n```json5;\n{ \"status\": 10, \"ext_status\": 2006, \"battery_status\": 0; }\n```\n\n### 恋爱中\n```json5;\n{ \"status\": 10, \"ext_status\": 1051, \"battery_status\": 0; }\n```\n\n### 好运锦鲤\n```json5;\n{ \"status\": 10, \"ext_status\": 1071, \"battery_status\": 0; }\n```\n\n### 水逆退散\n```json5;\n{ \"status\": 10, \"ext_status\": 1201, \"battery_status\": 0; }\n```\n\n### 嗨到飞起\n```json5;\n{ \"status\": 10, \"ext_status\": 1056, \"battery_status\": 0; }\n```\n\n### 元气满满\n```json5;\n{ \"status\": 10, \"ext_status\": 1058, \"battery_status\": 0; }\n```\n\n### 宝宝认证\n```json5;\n{ \"status\": 10, \"ext_status\": 1070, \"battery_status\": 0; }\n```\n\n### 一言难尽\n```json5;\n{ \"status\": 10, \"ext_status\": 1063, \"battery_status\": 0; }\n```\n\n### 难得糊涂\n```json5;\n{ \"status\": 10, \"ext_status\": 2001, \"battery_status\": 0; }\n```\n\n### emo中\n```json5;\n{ \"status\": 10, \"ext_status\": 1401, \"battery_status\": 0; }\n```\n\n### 我太难了\n```json5;\n{ \"status\": 10, \"ext_status\": 1062, \"battery_status\": 0; }\n```\n\n### 我想开了\n```json5;\n{ \"status\": 10, \"ext_status\": 2013, \"battery_status\": 0; }\n```\n\n### 我没事\n```json5;\n{ \"status\": 10, \"ext_status\": 1052, \"battery_status\": 0; }\n```\n\n### 想静静\n```json5;\n{ \"status\": 10, \"ext_status\": 1061, \"battery_status\": 0; }\n```\n\n### 悠哉哉\n```json5;\n{ \"status\": 10, \"ext_status\": 1059, \"battery_status\": 0; }\n```\n\n### 去旅行\n```json5;\n{ \"status\": 10, \"ext_status\": 2015, \"battery_status\": 0; }\n```\n\n### 信号弱\n```json5;\n{ \"status\": 10, \"ext_status\": 1011, \"battery_status\": 0; }\n```\n\n### 出去浪\n```json5;\n{ \"status\": 10, \"ext_status\": 2003, \"battery_status\": 0; }\n```\n\n### 肝作业\n```json5;\n{ \"status\": 10, \"ext_status\": 2012, \"battery_status\": 0; }\n```\n\n### 学习中\n```json5;\n{ \"status\": 10, \"ext_status\": 1018, \"battery_status\": 0; }\n```\n\n### 搬砖中\n```json5;\n{ \"status\": 10, \"ext_status\": 2023, \"battery_status\": 0; }\n```\n\n### 摸鱼中\n```json5;\n{ \"status\": 10, \"ext_status\": 1300, \"battery_status\": 0; }\n```\n\n### 无聊中\n```json5;\n{ \"status\": 10, \"ext_status\": 1060, \"battery_status\": 0; }\n```\n\n### timi中\n```json5;\n{ \"status\": 10, \"ext_status\": 1027, \"battery_status\": 0; }\n```\n\n### 睡觉中\n```json5;\n{ \"status\": 10, \"ext_status\": 1016, \"battery_status\": 0; }\n```\n\n### 熬夜中\n```json5;\n{ \"status\": 10, \"ext_status\": 1032, \"battery_status\": 0; }\n```\n\n### 追剧中\n```json5;\n{ \"status\": 10, \"ext_status\": 1021, \"battery_status\": 0; }\n```\n\n### 我的电量\n```json5;\n{\n  \"status\": 10,\n    \"ext_status\": 1000,\n      \"battery_status\": 0;\n}\n```\n",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "description": "在线状态",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "ext_status": {
+      "description": "扩展状态",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "battery_status": {
+      "description": "电量状态",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "status",
+     "ext_status",
+     "battery_status"
+    ]
+   },
+   "example": {
+    "status": 11,
+    "ext_status": 0,
+    "battery_status": 100
+   }
+  },
+  "get_robot_uin_range": {
+   "summary": "获取机器人 UIN 范围",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_friends_with_category": {
+   "summary": "获取带分组的好友列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "用户扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "delete_friend": {
+   "summary": "删除好友",
+   "description": "从好友列表中删除指定用户",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "friend_id": {
+      "description": "好友 QQ 号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "user_id": {
+      "description": "用户 QQ 号",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "temp_block": {
+      "description": "是否加入黑名单",
+      "type": "boolean"
+     },
+     "temp_both_del": {
+      "description": "是否双向删除",
+      "type": "boolean"
+     }
+    }
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "check_url_safely": {
+   "summary": "检查URL安全性",
+   "description": "检查指定URL的安全等级",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "url": {
+      "description": "要检查的 URL",
+      "type": "string"
+     }
+    },
+    "required": [
+     "url"
+    ]
+   },
+   "example": {
+    "url": "https://example.com"
+   }
+  },
+  "get_online_clients": {
+   "summary": "获取在线客户端",
+   "description": "获取当前登录账号的在线客户端列表",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "description": "在线客户端负载",
+    "type": "object",
+    "properties": {}
+   },
+   "example": {
+    "no_cache": false
+   }
+  },
+  "ocr_image": {
+   "summary": "图片 OCR 识别",
+   "description": "识别图片中的文字内容(仅Windows端支持)",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "image": {
+      "description": "图片路径、URL或Base64",
+      "type": "string"
+     }
+    },
+    "required": [
+     "image"
+    ]
+   },
+   "example": {
+    "image": "image_id_123"
+   }
+  },
+  ".ocr_image": {
+   "summary": "图片 OCR 识别 (内部)",
+   "description": "识别图片中的文字内容(仅Windows端支持)",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "image": {
+      "description": "图片路径、URL或Base64",
+      "type": "string"
+     }
+    },
+    "required": [
+     "image"
+    ]
+   },
+   "example": {
+    "image": "image_id_123"
+   }
+  },
+  "get_group_honor_info": {
+   "summary": "获取群荣誉信息",
+   "description": "获取指定群聊的荣誉信息，如龙王等",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "type": {
+      "description": "荣誉类型",
+      "enum": [
+       "all",
+       "talkative",
+       "performer",
+       "legend",
+       "strong_newbie",
+       "emotion"
+      ],
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "type": "all"
+   }
+  },
+  "_send_group_notice": {
+   "summary": "发送群公告",
+   "description": "在指定群聊中发布新的公告",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "content": {
+      "description": "公告内容",
+      "type": "string"
+     },
+     "image": {
+      "description": "公告图片路径或 URL",
+      "type": "string"
+     },
+     "pinned": {
+      "default": 0,
+      "description": "是否置顶 (0/1)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "type": {
+      "default": 1,
+      "description": "类型 (默认为 1)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "confirm_required": {
+      "default": 1,
+      "description": "是否需要确认 (0/1)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "is_show_edit_card": {
+      "default": 0,
+      "description": "是否显示修改群名片引导 (0/1)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "tip_window_type": {
+      "default": 0,
+      "description": "弹窗类型 (默认为 0)",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "content",
+     "pinned",
+     "type",
+     "confirm_required",
+     "is_show_edit_card",
+     "tip_window_type"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "content": "公告内容",
+    "image": "base64://..."
+   }
+  },
+  "_get_group_notice": {
+   "summary": "获取群公告",
+   "description": "获取指定群聊中的公告列表",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_essence_msg_list": {
+   "summary": "获取群精华消息",
+   "description": "获取指定群聊中的精华消息列表",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_group_at_all_remain": {
+   "summary": "获取群艾特全体剩余次数",
+   "description": "获取指定群聊中艾特全体成员的剩余次数",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "send_forward_msg": {
+   "summary": "发送合并转发消息",
+   "description": "发送合并转发消息",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "group_id": "123456789",
+    "messages": []
+   }
+  },
+  "send_group_forward_msg": {
+   "summary": "发送群合并转发消息",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "group_id": "123456789",
+    "messages": []
+   }
+  },
+  "send_private_forward_msg": {
+   "summary": "发送私聊合并转发消息",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_type": {
+      "description": "消息类型 (private/group)",
+      "enum": [
+       "private",
+       "group"
+      ],
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message": {
+      "$ref": "#/components/schemas/OB11MessageMixType"
+     },
+     "auto_escape": {
+      "description": "是否作为纯文本发送",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "source": {
+      "description": "合并转发来源",
+      "type": "string"
+     },
+     "news": {
+      "description": "合并转发新闻",
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "text"
+       ]
+      }
+     },
+     "summary": {
+      "description": "合并转发摘要",
+      "type": "string"
+     },
+     "prompt": {
+      "description": "合并转发提示",
+      "type": "string"
+     },
+     "timeout": {
+      "description": "自定义发送超时(毫秒)，覆盖自动计算值",
+      "type": "number"
+     }
+    },
+    "required": [
+     "message"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "messages": []
+   }
+  },
+  "get_stranger_info": {
+   "summary": "获取陌生人信息",
+   "description": "获取指定非好友用户的信息",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "no_cache": {
+      "default": false,
+      "description": "是否不使用缓存",
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "user_id",
+     "no_cache"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "download_file": {
+   "summary": "下载文件",
+   "description": "下载网络文件到本地临时目录",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "url": {
+      "description": "下载链接",
+      "type": "string"
+     },
+     "base64": {
+      "description": "base64数据",
+      "type": "string"
+     },
+     "name": {
+      "description": "文件名",
+      "type": "string"
+     },
+     "headers": {
+      "description": "请求头",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "url": "https://example.com/file.png",
+    "thread_count": 1,
+    "headers": "User-Agent: NapCat"
+   }
+  },
+  "get_guild_list": {
+   "summary": "获取频道列表",
+   "description": "获取当前帐号已加入的频道列表",
+   "deprecated": false,
+   "tags": [
+    "频道接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "mark_msg_as_read": {
+   "summary": "标记消息已读 (Go-CQHTTP)",
+   "description": "标记指定渠道的消息为已读",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户QQ",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "message_id": 12345
+   }
+  },
+  "upload_group_file": {
+   "summary": "上传群文件",
+   "description": "上传资源路径或URL指定的文件到指定群聊的文件系统中",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file": {
+      "description": "资源路径或URL",
+      "type": "string"
+     },
+     "name": {
+      "description": "文件名",
+      "type": "string"
+     },
+     "folder": {
+      "description": "父目录 ID",
+      "type": "string"
+     },
+     "folder_id": {
+      "description": "父目录 ID (兼容性字段)",
+      "type": "string"
+     },
+     "upload_file": {
+      "default": true,
+      "description": "是否执行上传",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "group_id",
+     "file",
+     "name",
+     "upload_file"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file": "/path/to/file",
+    "name": "test.txt"
+   }
+  },
+  "get_group_msg_history": {
+   "summary": "获取群历史消息",
+   "description": "获取指定群聊的历史聊天记录",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "message_seq": {
+      "description": "起始消息序号",
+      "type": "string"
+     },
+     "count": {
+      "default": 20,
+      "description": "获取消息数量",
+      "type": "number"
+     },
+     "reverse_order": {
+      "default": false,
+      "description": "是否反向排序",
+      "type": "boolean"
+     },
+     "disable_get_url": {
+      "default": false,
+      "description": "是否禁用获取URL",
+      "type": "boolean"
+     },
+     "parse_mult_msg": {
+      "default": true,
+      "description": "是否解析合并消息",
+      "type": "boolean"
+     },
+     "quick_reply": {
+      "default": false,
+      "description": "是否快速回复",
+      "type": "boolean"
+     },
+     "reverseOrder": {
+      "default": false,
+      "description": "是否反向排序(旧版本兼容)",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "group_id",
+     "count",
+     "reverse_order",
+     "disable_get_url",
+     "parse_mult_msg",
+     "quick_reply",
+     "reverseOrder"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "message_seq": 0,
+    "count": 20
+   }
+  },
+  "get_forward_msg": {
+   "summary": "获取合并转发消息",
+   "description": "获取合并转发消息的具体内容",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "type": "string"
+     },
+     "id": {
+      "description": "消息ID",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "message_id": "123456"
+   }
+  },
+  "get_friend_msg_history": {
+   "summary": "获取好友历史消息",
+   "description": "获取指定好友的历史聊天记录",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "message_seq": {
+      "description": "起始消息序号",
+      "type": "string"
+     },
+     "count": {
+      "default": 20,
+      "description": "获取消息数量",
+      "type": "number"
+     },
+     "reverse_order": {
+      "default": false,
+      "description": "是否反向排序",
+      "type": "boolean"
+     },
+     "disable_get_url": {
+      "default": false,
+      "description": "是否禁用获取URL",
+      "type": "boolean"
+     },
+     "parse_mult_msg": {
+      "default": true,
+      "description": "是否解析合并消息",
+      "type": "boolean"
+     },
+     "quick_reply": {
+      "default": false,
+      "description": "是否快速回复",
+      "type": "boolean"
+     },
+     "reverseOrder": {
+      "default": false,
+      "description": "是否反向排序(旧版本兼容)",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "user_id",
+     "count",
+     "reverse_order",
+     "disable_get_url",
+     "parse_mult_msg",
+     "quick_reply",
+     "reverseOrder"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "message_seq": 0,
+    "count": 20
+   }
+  },
+  ".handle_quick_operation": {
+   "summary": "处理快速操作",
+   "description": "处理来自事件上报的快速操作请求",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "context": {
+      "description": "事件上下文",
+      "type": "object",
+      "properties": {
+       "time": {
+        "description": "事件发生时间",
+        "type": "number"
+       },
+       "self_id": {
+        "description": "收到事件的机器人 QQ 号",
+        "type": "number"
+       },
+       "post_type": {
+        "description": "上报类型",
+        "type": "string"
+       },
+       "message_type": {
+        "description": "消息类型",
+        "type": "string"
+       },
+       "sub_type": {
+        "description": "消息子类型",
+        "type": "string"
+       },
+       "user_id": {
+        "description": "发送者 QQ 号",
+        "type": "string"
+       },
+       "group_id": {
+        "description": "群号",
+        "type": "string"
+       },
+       "message_id": {
+        "description": "消息 ID",
+        "type": "number"
+       },
+       "message_seq": {
+        "description": "消息序列号",
+        "type": "number"
+       },
+       "real_id": {
+        "description": "真实消息 ID",
+        "type": "number"
+       },
+       "sender": {
+        "type": "object",
+        "properties": {
+         "user_id": {
+          "description": "用户ID",
+          "type": "string"
+         },
+         "nickname": {
+          "description": "昵称",
+          "type": "string"
+         },
+         "sex": {
+          "description": "性别",
+          "type": "string"
+         },
+         "age": {
+          "description": "年龄",
+          "type": "number"
+         },
+         "card": {
+          "description": "群名片",
+          "type": "string"
+         },
+         "level": {
+          "description": "群等级",
+          "type": "string"
+         },
+         "role": {
+          "description": "群角色",
+          "type": "string"
+         }
+        },
+        "required": [
+         "user_id",
+         "nickname"
+        ]
+       },
+       "message": {
+        "description": "消息内容",
+        "type": "object"
+       },
+       "message_format": {
+        "description": "消息格式",
+        "type": "string"
+       },
+       "raw_message": {
+        "description": "原始消息内容",
+        "type": "string"
+       },
+       "font": {
+        "description": "字体",
+        "type": "number"
+       },
+       "notice_type": {
+        "description": "通知类型",
+        "type": "string"
+       },
+       "meta_event_type": {
+        "description": "元事件类型",
+        "type": "string"
+       }
+      },
+      "required": [
+       "time",
+       "self_id",
+       "post_type",
+       "user_id"
+      ]
+     },
+     "operation": {
+      "description": "快速操作内容",
+      "type": "object",
+      "properties": {
+       "reply": {
+        "$ref": "#/components/schemas/OB11MessageMixType"
+       },
+       "auto_escape": {
+        "description": "是否作为纯文本发送",
+        "type": "boolean"
+       },
+       "at_sender": {
+        "description": "是否 @ 发送者",
+        "type": "boolean"
+       },
+       "delete": {
+        "description": "是否撤回该消息",
+        "type": "boolean"
+       },
+       "kick": {
+        "description": "是否踢出发送者",
+        "type": "boolean"
+       },
+       "ban": {
+        "description": "是否禁言发送者",
+        "type": "boolean"
+       },
+       "ban_duration": {
+        "description": "禁言时长",
+        "type": "number"
+       },
+       "approve": {
+        "description": "是否同意请求/加群",
+        "type": "boolean"
+       },
+       "remark": {
+        "description": "好友备注",
+        "type": "string"
+       },
+       "reason": {
+        "description": "拒绝理由",
+        "type": "string"
+       }
+      }
+     }
+    },
+    "required": [
+     "context",
+     "operation"
+    ]
+   },
+   "example": {
+    "context": {},
+    "operation": {}
+   }
+  },
+  "get_group_ignored_notifies": {
+   "summary": "获取群忽略通知",
+   "description": "获取被忽略的入群申请和邀请通知",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "description": "群忽略通知负载",
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "delete_essence_msg": {
+   "summary": "移出精华消息",
+   "description": "将一条消息从群精华消息列表中移出",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "msg_seq": {
+      "description": "消息序号",
+      "type": "string"
+     },
+     "msg_random": {
+      "description": "消息随机数",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "message_id": 123456
+   }
+  },
+  "set_essence_msg": {
+   "summary": "设置精华消息",
+   "description": "将一条消息设置为群精华消息",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "message_id": {
+      "description": "消息ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "message_id"
+    ]
+   },
+   "example": {
+    "message_id": 123456
+   }
+  },
+  "get_recent_contact": {
+   "summary": "获取最近会话",
+   "description": "获取最近会话",
+   "deprecated": false,
+   "tags": [
+    "用户接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "count": {
+      "default": 10,
+      "description": "获取的数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "count"
+    ]
+   },
+   "example": {
+    "count": 10
+   }
+  },
+  "_mark_all_as_read": {
+   "summary": "标记所有消息已读",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_profile_like": {
+   "summary": "获取资料点赞",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "用户扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "start": {
+      "default": 0,
+      "description": "起始位置",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "count": {
+      "default": 10,
+      "description": "获取数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "start",
+     "count"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "start": 0,
+    "count": 10
+   }
+  },
+  "set_group_portrait": {
+   "summary": "设置群头像",
+   "description": "修改指定群聊的头像",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "头像文件路径或 URL",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "file",
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file": "base64://..."
+   }
+  },
+  "fetch_custom_face": {
+   "summary": "获取自定义表情",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "count": {
+      "default": 48,
+      "description": "获取数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "count"
+    ]
+   },
+   "example": {
+    "count": 10
+   }
+  },
+  "fetch_custom_face_detail": {
+   "summary": "获取自定义表情详情",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "count": {
+      "default": 48,
+      "description": "获取数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "count"
+    ]
+   },
+   "example": {
+    "count": 10
+   }
+  },
+  "add_custom_face": {
+   "summary": "添加自定义表情",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file": {
+      "description": "本地表情文件路径",
+      "type": "string"
+     },
+     "emoji_id": {
+      "description": "表情ID，未提供时传空字符串",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "package_id": {
+      "description": "表情包ID，未提供时传0",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "file_name": {
+      "description": "文件名，未提供时从file路径取basename",
+      "type": "string"
+     },
+     "file_size": {
+      "description": "文件大小，未提供时读取本地文件",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     },
+     "md5": {
+      "description": "文件MD5，未提供时读取本地文件计算",
+      "type": "string"
+     },
+     "is_mark_face": {
+      "description": "是否商城表情",
+      "type": "boolean"
+     },
+     "is_origin": {
+      "description": "是否原图",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "file"
+    ]
+   },
+   "example": {
+    "file": "C:\\Users\\Public\\face.png",
+    "is_origin": true
+   }
+  },
+  "delete_custom_face": {
+   "summary": "删除自定义表情",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "res_id": {
+      "anyOf": [
+       {
+        "description": "fetch_custom_face_detail返回的resId",
+        "type": "string"
+       },
+       {
+        "type": "array",
+        "items": {
+         "description": "fetch_custom_face_detail返回的resId",
+         "type": "string"
+        }
+       }
+      ]
+     },
+     "id": {
+      "anyOf": [
+       {
+        "description": "native deleteFavEmoji字符串ID，通常为resId",
+        "type": "string"
+       },
+       {
+        "type": "array",
+        "items": {
+         "description": "native deleteFavEmoji字符串ID，通常为resId",
+         "type": "string"
+        }
+       }
+      ]
+     },
+     "ids": {
+      "type": "array",
+      "items": {
+       "description": "native deleteFavEmoji字符串ID列表，通常为resId列表",
+       "type": "string"
+      }
+     },
+     "md5": {
+      "anyOf": [
+       {
+        "description": "表情MD5，不能直接删除，请先通过fetch_custom_face_detail获取resId",
+        "type": "string"
+       },
+       {
+        "type": "array",
+        "items": {
+         "description": "表情MD5，不能直接删除，请先通过fetch_custom_face_detail获取resId",
+         "type": "string"
+        }
+       }
+      ]
+     }
+    }
+   },
+   "example": {
+    "res_id": "2707600964_0_0_0_D8EAA70984B402EE10B0F33DB88F4173_0_0"
+   }
+  },
+  "set_custom_face_desc": {
+   "summary": "修改自定义表情描述",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "emoji_id": {
+      "description": "表情ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "res_id": {
+      "description": "资源ID",
+      "type": "string"
+     },
+     "md5": {
+      "description": "表情MD5",
+      "type": "string"
+     },
+     "desc": {
+      "description": "新的表情描述",
+      "type": "string"
+     }
+    },
+    "required": [
+     "emoji_id",
+     "res_id",
+     "md5",
+     "desc"
+    ]
+   },
+   "example": {
+    "emoji_id": 1,
+    "res_id": "resource-id",
+    "md5": "d41d8cd98f00b204e9800998ecf8427e",
+    "desc": "新的描述"
+   }
+  },
+  "upload_private_file": {
+   "summary": "上传私聊文件",
+   "description": "上传本地文件到指定私聊会话中",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "file": {
+      "description": "资源路径或URL",
+      "type": "string"
+     },
+     "name": {
+      "description": "文件名",
+      "type": "string"
+     },
+     "upload_file": {
+      "default": true,
+      "description": "是否执行上传",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "user_id",
+     "file",
+     "name",
+     "upload_file"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "file": "/path/to/file",
+    "name": "test.txt"
+   }
+  },
+  "get_guild_service_profile": {
+   "summary": "获取频道个人信息",
+   "description": "获取当前帐号在频道中的个人资料",
+   "deprecated": false,
+   "tags": [
+    "频道接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {
+    "guild_id": "123456"
+   }
+  },
+  "_get_model_show": {
+   "summary": "获取机型显示",
+   "description": "获取当前账号可用的设备机型显示名称列表",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "model": {
+      "description": "模型名称",
+      "type": "string"
+     }
+    }
+   },
+   "example": {
+    "model": "iPhone 13"
+   }
+  },
+  "_set_model_show": {
+   "summary": "设置机型",
+   "description": "设置当前账号的设备机型名称",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {
+    "model": "iPhone 13",
+    "model_show": "iPhone 13"
+   }
+  },
+  "set_input_status": {
+   "summary": "设置输入状态",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "event_type": {
+      "description": "事件类型",
+      "type": "number"
+     }
+    },
+    "required": [
+     "user_id",
+     "event_type"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "event_type": 1
+   }
+  },
+  "get_csrf_token": {
+   "summary": "获取 CSRF Token",
+   "description": "获取 CSRF Token",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_credentials": {
+   "summary": "获取登录凭证",
+   "description": "获取登录凭证",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "domain": {
+      "description": "需要获取 cookies 的域名",
+      "type": "string"
+     }
+    },
+    "required": [
+     "domain"
+    ]
+   },
+   "example": {
+    "domain": "qun.qq.com"
+   }
+  },
+  "_del_group_notice": {
+   "summary": "删除群公告",
+   "description": "删除群聊中的公告",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "notice_id": {
+      "description": "公告ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "notice_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "notice_id": "notice_123"
+   }
+  },
+  "delete_group_file": {
+   "summary": "删除群文件",
+   "description": "在群文件系统中删除指定的文件",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     },
+     "bus_id": {
+      "minimum": 1,
+      "maximum": 4294967295,
+      "multipleOf": 1,
+      "description": "文件业务ID，默认使用文件列表中的 busid",
+      "type": "number"
+     },
+     "busid": {
+      "minimum": 1,
+      "maximum": 4294967295,
+      "multipleOf": 1,
+      "description": "文件业务ID，兼容 busid 字段",
+      "type": "number"
+     }
+    },
+    "required": [
+     "group_id",
+     "file_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file_id": "file_uuid_123",
+    "bus_id": 104
+   }
+  },
+  "create_group_file_folder": {
+   "summary": "创建群文件目录",
+   "description": "在群文件系统中创建新的文件夹",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "folder_name": {
+      "description": "文件夹名称",
+      "type": "string"
+     },
+     "name": {
+      "description": "文件夹名称",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456789",
+    "folder_name": "新建文件夹"
+   }
+  },
+  "delete_group_folder": {
+   "summary": "删除群文件目录",
+   "description": "在群文件系统中删除指定的文件夹",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "folder_id": {
+      "description": "文件夹ID",
+      "type": "string"
+     },
+     "folder": {
+      "description": "文件夹ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "folder_id": "folder_uuid_123"
+   }
+  },
+  "get_group_file_system_info": {
+   "summary": "获取群文件系统信息",
+   "description": "获取群聊文件系统的空间及状态信息",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "get_group_files_by_folder": {
+   "summary": "获取群文件夹文件列表",
+   "description": "获取指定群文件夹下的文件及子文件夹列表",
+   "deprecated": false,
+   "tags": [
+    "Go-CQHTTP"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "folder_id": {
+      "description": "文件夹ID",
+      "type": "string"
+     },
+     "folder": {
+      "description": "文件夹ID",
+      "type": "string"
+     },
+     "file_count": {
+      "default": 50,
+      "description": "文件数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "file_count"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "folder_id": "folder_id"
+   }
+  },
+  "nc_get_packet_status": {
+   "summary": "获取Packet状态",
+   "description": "获取底层Packet服务的运行状态",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "set_restart": {
+   "summary": "重启服务",
+   "description": "重启服务",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "group_poke": {
+   "summary": "发送戳一戳",
+   "description": "在群聊或私聊中发送戳一戳动作",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "target_id": {
+      "description": "目标QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "friend_poke": {
+   "summary": "发送戳一戳",
+   "description": "在群聊或私聊中发送戳一戳动作",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "target_id": {
+      "description": "目标QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "nc_get_user_status": {
+   "summary": "获取用户在线状态",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "nc_get_rkey": {
+   "summary": "获取 RKey",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "set_group_special_title": {
+   "summary": "设置专属头衔",
+   "description": "设置群聊中指定成员的专属头衔",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "QQ号",
+      "type": "string"
+     },
+     "special_title": {
+      "default": "",
+      "description": "专属头衔",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "user_id",
+     "special_title"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "user_id": "123456789",
+    "special_title": "头衔"
+   }
+  },
+  "set_diy_online_status": {
+   "summary": "设置自定义在线状态",
+   "description": "设置自定义在线状态",
+   "deprecated": false,
+   "tags": [
+    "用户扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "face_id": {
+      "description": "图标ID",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "face_type": {
+      "default": "1",
+      "description": "图标类型",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "wording": {
+      "default": " ",
+      "description": "状态文字内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "face_id",
+     "face_type",
+     "wording"
+    ]
+   },
+   "example": {
+    "face_id": "123",
+    "face_type": "1",
+    "wording": "自定义状态"
+   }
+  },
+  "get_group_shut_list": {
+   "summary": "获取群禁言列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456789"
+   }
+  },
+  "get_group_file_url": {
+   "summary": "获取群文件URL",
+   "description": "获取指定群文件的下载链接",
+   "deprecated": false,
+   "tags": [
+    "文件接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "file_id"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "file_id": "file_id_123",
+    "busid": 102
+   }
+  },
+  "get_mini_app_ark": {
+   "summary": "获取小程序 Ark",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "description": "小程序Ark参数",
+    "anyOf": [
+     {
+      "type": "object",
+      "properties": {
+       "type": {
+        "description": "模板类型",
+        "enum": [
+         "bili",
+         "weibo"
+        ],
+        "type": "string"
+       },
+       "title": {
+        "description": "标题",
+        "type": "string"
+       },
+       "desc": {
+        "description": "描述",
+        "type": "string"
+       },
+       "picUrl": {
+        "description": "图片URL",
+        "type": "string"
+       },
+       "jumpUrl": {
+        "description": "跳转URL",
+        "type": "string"
+       },
+       "webUrl": {
+        "description": "网页URL",
+        "type": "string"
+       },
+       "rawArkData": {
+        "description": "是否返回原始Ark数据",
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "title",
+       "desc",
+       "picUrl",
+       "jumpUrl"
+      ]
+     },
+     {
+      "type": "object",
+      "properties": {
+       "title": {
+        "description": "标题",
+        "type": "string"
+       },
+       "desc": {
+        "description": "描述",
+        "type": "string"
+       },
+       "picUrl": {
+        "description": "图片URL",
+        "type": "string"
+       },
+       "jumpUrl": {
+        "description": "跳转URL",
+        "type": "string"
+       },
+       "iconUrl": {
+        "description": "图标URL",
+        "type": "string"
+       },
+       "webUrl": {
+        "description": "网页URL",
+        "type": "string"
+       },
+       "appId": {
+        "description": "小程序AppID",
+        "type": "string"
+       },
+       "scene": {
+        "description": "场景ID",
+        "type": "string"
+       },
+       "templateType": {
+        "description": "模板类型",
+        "type": "string"
+       },
+       "businessType": {
+        "description": "业务类型",
+        "type": "string"
+       },
+       "verType": {
+        "description": "版本类型",
+        "type": "string"
+       },
+       "shareType": {
+        "description": "分享类型",
+        "type": "string"
+       },
+       "versionId": {
+        "description": "版本ID",
+        "type": "string"
+       },
+       "sdkId": {
+        "description": "SDK ID",
+        "type": "string"
+       },
+       "withShareTicket": {
+        "description": "是否携带分享票据",
+        "type": "string"
+       },
+       "rawArkData": {
+        "description": "是否返回原始Ark数据",
+        "type": "string"
+       }
+      },
+      "required": [
+       "title",
+       "desc",
+       "picUrl",
+       "jumpUrl",
+       "iconUrl",
+       "appId",
+       "scene",
+       "templateType",
+       "businessType",
+       "verType",
+       "shareType",
+       "versionId",
+       "sdkId",
+       "withShareTicket"
+      ]
+     }
+    ]
+   },
+   "example": {
+    "type": "bili",
+    "title": "测试标题",
+    "desc": "测试描述",
+    "picUrl": "http://example.com/pic.jpg",
+    "jumpUrl": "http://example.com"
+   }
+  },
+  "get_ai_record": {
+   "summary": "获取 AI 语音",
+   "description": "通过 AI 语音引擎获取指定文本的语音 URL",
+   "deprecated": false,
+   "tags": [
+    "AI 扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "character": {
+      "description": "角色ID",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "text": {
+      "description": "语音文本内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "character",
+     "group_id",
+     "text"
+    ]
+   },
+   "example": {
+    "character": "ai_char_1",
+    "group_id": "123456",
+    "text": "你好"
+   }
+  },
+  "send_group_ai_record": {
+   "summary": "发送群 AI 语音",
+   "description": "发送 AI 生成的语音到指定群聊",
+   "deprecated": false,
+   "tags": [
+    "AI 扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "character": {
+      "description": "角色ID",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "text": {
+      "description": "语音文本内容",
+      "type": "string"
+     }
+    },
+    "required": [
+     "character",
+     "group_id",
+     "text"
+    ]
+   },
+   "example": {
+    "character": "ai_char_1",
+    "group_id": "123456",
+    "text": "你好"
+   }
+  },
+  "get_ai_characters": {
+   "summary": "获取AI角色列表",
+   "description": "获取群聊中的AI角色列表",
+   "deprecated": false,
+   "tags": [
+    "扩展接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "chat_type": {
+      "default": 1,
+      "description": "聊天类型",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "group_id",
+     "chat_type"
+    ]
+   },
+   "example": {
+    "group_id": "123456"
+   }
+  },
+  "send_packet": {
+   "summary": "发送原始数据包",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "cmd": {
+      "description": "命令字",
+      "type": "string"
+     },
+     "data": {
+      "description": "十六进制数据",
+      "type": "string"
+     },
+     "rsp": {
+      "default": true,
+      "description": "是否等待响应",
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     }
+    },
+    "required": [
+     "cmd",
+     "data",
+     "rsp"
+    ]
+   },
+   "example": {
+    "cmd": "Example.Cmd",
+    "data": "123456",
+    "rsp": true
+   }
+  },
+  "send_poke": {
+   "summary": "发送戳一戳",
+   "description": "在群聊或私聊中发送戳一戳动作",
+   "deprecated": false,
+   "tags": [
+    "核心接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户QQ",
+      "type": "string"
+     },
+     "target_id": {
+      "description": "目标QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "get_group_system_msg": {
+   "summary": "获取群系统消息",
+   "description": "获取群系统消息",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "count": {
+      "default": 50,
+      "description": "获取的消息数量",
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     }
+    },
+    "required": [
+     "count"
+    ]
+   },
+   "example": {
+    "count": 50
+   }
+  },
+  "bot_exit": {
+   "summary": "退出登录",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "click_inline_keyboard_button": {
+   "summary": "点击内联键盘按钮",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "消息扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     },
+     "bot_appid": {
+      "description": "机器人AppID",
+      "type": "string"
+     },
+     "button_id": {
+      "default": "",
+      "description": "按钮ID",
+      "type": "string"
+     },
+     "callback_data": {
+      "default": "",
+      "description": "回调数据",
+      "type": "string"
+     },
+     "msg_seq": {
+      "default": "10086",
+      "description": "消息序列号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "group_id",
+     "bot_appid",
+     "button_id",
+     "callback_data",
+     "msg_seq"
+    ]
+   },
+   "example": {
+    "group_id": "123456",
+    "bot_appid": "1234567890",
+    "button_id": "btn_1",
+    "callback_data": "",
+    "msg_seq": "10086"
+   }
+  },
+  "get_private_file_url": {
+   "summary": "获取私聊文件URL",
+   "description": "获取指定私聊文件的下载链接",
+   "deprecated": false,
+   "tags": [
+    "文件接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "file_id": {
+      "description": "文件ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "file_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "file_id": "file_id_123"
+   }
+  },
+  "get_unidirectional_friend_list": {
+   "summary": "获取单向好友列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "用户扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "clean_cache": {
+   "summary": "清理缓存",
+   "description": "清理缓存",
+   "deprecated": false,
+   "tags": [
+    "系统接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_group_ignore_add_request": {
+   "summary": "获取群被忽略的加群请求",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "群组接口"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {}
+   },
+   "example": {}
+  },
+  "get_collection_list": {
+   "summary": "获取收藏列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "系统扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "category": {
+      "description": "分类ID",
+      "type": "string"
+     },
+     "count": {
+      "default": "50",
+      "description": "获取数量",
+      "type": "string"
+     }
+    },
+    "required": [
+     "category",
+     "count"
+    ]
+   },
+   "example": {
+    "category": "0",
+    "count": "50"
+   }
+  },
+  "create_flash_task": {
+   "summary": "创建闪传任务",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "files": {
+      "description": "文件列表或单个文件路径",
+      "anyOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "name": {
+      "description": "任务名称",
+      "type": "string"
+     },
+     "thumb_path": {
+      "description": "缩略图路径",
+      "type": "string"
+     },
+     "validitySeconds": {
+      "description": "文件集有效期（秒），可选 14 天 1209600 / 90 天 7776000 / 180 天 15552000，默认 1209600",
+      "type": "number"
+     }
+    },
+    "required": [
+     "files"
+    ]
+   },
+   "example": {
+    "files": "C:\\test.jpg",
+    "name": "test_task",
+    "validitySeconds": 1209600
+   }
+  },
+  "get_flash_file_list": {
+   "summary": "获取闪传文件列表",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123"
+   }
+  },
+  "get_flash_file_url": {
+   "summary": "获取闪传文件链接",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     },
+     "file_name": {
+      "description": "文件名",
+      "type": "string"
+     },
+     "file_index": {
+      "description": "文件索引",
+      "type": "number"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123"
+   }
+  },
+  "send_flash_msg": {
+   "summary": "发送闪传消息",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     },
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "group_id": {
+      "description": "群号",
+      "type": "string"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123",
+    "user_id": "123456789"
+   }
+  },
+  "get_share_link": {
+   "summary": "获取文件分享链接",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123"
+   }
+  },
+  "get_fileset_info": {
+   "summary": "获取文件集信息",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123"
+   }
+  },
+  "get_online_file_msg": {
+   "summary": "获取在线文件消息",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789"
+   }
+  },
+  "send_online_file": {
+   "summary": "发送在线文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "file_path": {
+      "description": "本地文件路径",
+      "type": "string"
+     },
+     "file_name": {
+      "description": "文件名 (可选)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "file_path"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "file_path": "C:\\path\\to\\file.txt",
+    "file_name": "test.txt"
+   }
+  },
+  "send_online_folder": {
+   "summary": "发送在线文件夹",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "folder_path": {
+      "description": "本地文件夹路径",
+      "type": "string"
+     },
+     "folder_name": {
+      "description": "文件夹名称 (可选)",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "folder_path"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "folder_path": "C:\\path\\to\\folder"
+   }
+  },
+  "receive_online_file": {
+   "summary": "接收在线文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "msg_id": {
+      "description": "消息 ID",
+      "type": "string"
+     },
+     "element_id": {
+      "description": "元素 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "msg_id",
+     "element_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "msg_id": "123",
+    "save_path": "C:\\save"
+   }
+  },
+  "refuse_online_file": {
+   "summary": "拒绝在线文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "msg_id": {
+      "description": "消息 ID",
+      "type": "string"
+     },
+     "element_id": {
+      "description": "元素 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "msg_id",
+     "element_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "msg_id": "123"
+   }
+  },
+  "cancel_online_file": {
+   "summary": "取消在线文件",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "user_id": {
+      "description": "用户 QQ",
+      "type": "string"
+     },
+     "msg_id": {
+      "description": "消息 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "user_id",
+     "msg_id"
+    ]
+   },
+   "example": {
+    "user_id": "123456789",
+    "msg_id": "123"
+   }
+  },
+  "download_fileset": {
+   "summary": "下载文件集",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "fileset_id": {
+      "description": "文件集 ID",
+      "type": "string"
+     }
+    },
+    "required": [
+     "fileset_id"
+    ]
+   },
+   "example": {
+    "fileset_id": "set_123"
+   }
+  },
+  "get_fileset_id": {
+   "summary": "获取文件集 ID",
+   "description": "",
+   "deprecated": false,
+   "tags": [
+    "文件扩展"
+   ],
+   "params": {
+    "type": "object",
+    "properties": {
+     "share_code": {
+      "description": "分享码或分享链接",
+      "type": "string"
+     }
+    },
+    "required": [
+     "share_code"
+    ]
+   },
+   "example": {
+    "share_code": "123456"
+   }
+  }
+ }
+}
