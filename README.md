@@ -16,6 +16,11 @@
 ├── lib/runner.mjs        # spawn python -m napcat_api，收集并解析 JSON
 ├── package.json          # DSH bundle 清单
 ├── cordis.patch.yml      # 安装时插入的插件配置
+├── docs/                 # 完整文档
+│   ├── ACTIONS.md        # 204 个 action 参考（生成）
+│   ├── QZONE.md          # 28 个 QQ 空间接口（生成）
+│   └── TOOLS.md          # DSH 工具参考
+├── tools/gen_docs.py     # 从 spec 重新生成文档
 └── napcat_api/           # Python 包（CLI + 客户端 + 官方 spec 快照）
     ├── cli.py
     ├── client.py
@@ -25,6 +30,19 @@
     ├── sync_docs.py
     ├── spec.json         # 4.18.42 的 204 个 action 裁剪快照
     └── version.json      # 本地记录的文档/版本号
+```
+
+## 文档
+
+- [DSH 工具参考](docs/TOOLS.md)：`napcat_call` / `napcat_send` 的全部参数、返回值和示例。
+- [204 个 action 参考](docs/ACTIONS.md)：按标签分组，含参数表、官方示例和覆盖缺口。
+- [QQ 空间 28 个接口](docs/QZONE.md)：看空间、发说说、评论、点赞、权限与“空友爱看”。
+
+`docs/` 里的 action 参考由 `tools/gen_docs.py` 从 `napcat_api/spec.json` 生成；
+NapCat 升级后先 `python -m napcat_api sync-docs`，再运行生成器：
+
+```bash
+python tools/gen_docs.py
 ```
 
 ## 前置条件

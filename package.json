@@ -12,7 +12,8 @@
     "index.js",
     "lib/*.mjs",
     "cordis.patch.yml",
-    "README.md"
+    "README.md",
+    "docs/*.md"
   ],
   "dsh": {
     "bundle": {
