@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "DSH 插件：把 NapCat 官方 OneBot 11 的 204 个 action 封装成 napcat_call / napcat_send 两个模型工具，内部调用本地 Python CLI（napcat_api）。",
+  "description": "NapCat工具集，遵从官方文档的 API 设计的统一交互脚本，以简化命令操作",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"
