@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "NapCat Tools",
+    "description": "A unified interaction toolkit for NapCat that follows the official API design to simplify command operations."
+  }
+}
